@@ -577,7 +577,7 @@ setInterval(loadMomentum30,1000);
 setInterval(loadMomentum3,1000);
 setInterval(loadStocks, 1000);
 setInterval(checkAlerts, 1000);
-setInterval(loadMomentum1Loss,5000);
+setInterval(loadMomentum1Loss,1000);
 loadMomentum1Loss();
 
 loadMomentum30();
