@@ -449,7 +449,7 @@ def calculate_continuous_price_raise(cycles):
 
     results.sort(key=lambda x: x["diff"], reverse=True)
 
-    return results[:5]
+    return results[:20]
 
 
 def calculate_static_momentum(cycles):
@@ -479,7 +479,7 @@ def calculate_static_momentum(cycles):
 
     results.sort(key=lambda x: x["change"], reverse=True)
 
-    return results[:5]
+    return results[:20]
 
 def calculate_static_price_raise(cycles):
     
@@ -528,7 +528,7 @@ def calculate_static_price_raise(cycles):
 
     results.sort(key=lambda x: x["diff"], reverse=True)
     # print(results)
-    return results[:5]
+    return results[:20]
 def calculate_15sec_loss(cycles):
     
     if len(cycles) < 2:
@@ -553,7 +553,7 @@ def calculate_15sec_loss(cycles):
     # Sort lowest first (biggest loss)
     results.sort(key=lambda x: x["change"])
 
-    return results[:5]
+    return results[:20]
 
 def momentum_scheduler():
     
