@@ -1,4 +1,4 @@
-const API = "https://stock6-production.up.railway.app/";
+const API = "http://localhost:3000";
 // const API = "https://stock5-production.up.railway.app/";
 
 let coun = 0;
@@ -11,6 +11,7 @@ let totalOrders = 0;
 let totalProfit = 0;
 let removedStrongSignal = [];
 let removedStableGrowth = [];
+let removedMomentum = [];
 /* ================= COPY FUNCTION ================= */
 function copyName(fullName) {
     const cleanName = fullName.replace(".NS", "");
@@ -185,7 +186,13 @@ async function loadMomentum30() {
     const container = document.getElementById("momentum30");
     container.innerHTML = "";
 
+    let count = 0;
+
     data.forEach(stock => {
+
+        if (removedMomentum.includes(stock.name)) return;
+        if (count >= 5) return;
+
         container.innerHTML += `
         <div class="stock">
             <div style="flex:1;">
@@ -195,9 +202,13 @@ async function loadMomentum30() {
             </div>
             <button onclick="copyName('${stock.name}')">Copy</button>
             <button class="buy" onclick="buyStock('${stock.name}', ${stock.price})">Buy</button>
+            <button onclick="removeFromMomentum('${stock.name}')">Remove</button>
         </div>
         `;
+        count++;
     });
+
+    loadRemovedMomentumBox();
 }
 
 /* ================= MOMENTUM 10 SEC % ================= */
@@ -209,7 +220,13 @@ async function loadMomentum3() {
     const container = document.getElementById("momentum3");
     container.innerHTML = "";
 
+    let count = 0;
+
     data.forEach(stock => {
+
+        if (removedMomentum.includes(stock.name)) return;
+        if (count >= 5) return;
+
         container.innerHTML += `
         <div class="stock">
             <div style="flex:1;">
@@ -219,9 +236,13 @@ async function loadMomentum3() {
             </div>
             <button onclick="copyName('${stock.name}')">Copy</button>
             <button class="buy" onclick="buyStock('${stock.name}', ${stock.price})">Buy</button>
+            <button onclick="removeFromMomentum('${stock.name}')">Remove</button>
         </div>
         `;
+        count++;
     });
+
+    loadRemovedMomentumBox();
 }
 
 /* ================= MOMENTUM 5 SEC PRICE ================= */
@@ -232,8 +253,14 @@ async function loadMomentum30Price(){
 
     const div = document.getElementById("momentum30price");
     div.innerHTML = "";
-    
+
+    let count = 0;
+
     data.forEach(stock=>{
+
+        if (removedMomentum.includes(stock.name)) return;
+        if (count >= 5) return;
+
         div.innerHTML += `
         <div class="stock">
             <div style="flex:1;">
@@ -243,9 +270,13 @@ async function loadMomentum30Price(){
             </div>
             <button onclick="copyName('${stock.name}')">Copy</button>
             <button class="buy" onclick="buyStock('${stock.name}', ${stock.price})">Buy</button>
+            <button onclick="removeFromMomentum('${stock.name}')">Remove</button>
         </div>
         `;
+        count++;
     });
+
+    loadRemovedMomentumBox();
 }
 /* ================= MOMENTUM 1 MIN LOSS ================= */
 async function loadMomentum1Loss() {
@@ -256,12 +287,17 @@ async function loadMomentum1Loss() {
     const div = document.getElementById("momentum1loss");
     div.innerHTML = "";
 
+    let count = 0;
+
     for (const stock of data) {
 
-        const name = stock.name;   // ✅ get name correctly
+        if (removedMomentum.includes(stock.name)) continue;
+        if (count >= 5) break;
+
+        const name = stock.name;
         const price = stock.price;
         const change = stock.change;
-        // console.log(stock)
+
         div.innerHTML += `
         <div class="stock">
             <div style="flex:1;">
@@ -273,11 +309,46 @@ async function loadMomentum1Loss() {
             </div>
             <button onclick="copyName('${name}')">Copy</button>
             <button class="buy" onclick="buyStock('${name}', ${price})">Buy</button>
+            <button onclick="removeFromMomentum('${name}')">Remove</button>
         </div>
         `;
+        count++;
+    }
+
+    loadRemovedMomentumBox();
+}
+function removeFromMomentum(name){
+    if(!removedMomentum.includes(name)){
+        removedMomentum.push(name);
     }
 }
 
+function addBackMomentum(name){
+    removedMomentum =
+        removedMomentum.filter(s=>s!==name);
+}
+
+function loadRemovedMomentumBox(){
+
+    const div =
+        document.getElementById("removedMomentumBox");
+
+    if(!div) return;
+
+    div.innerHTML = "";
+
+    removedMomentum.forEach(name=>{
+        div.innerHTML += `
+        <div class="stock">
+            <div style="flex:1;">${name}</div>
+            <button class="buy"
+                onclick="addBackMomentum('${name}')">
+                Add
+            </button>
+        </div>
+        `;
+    });
+}
 // async function loadMomentum1Loss(){
 
 //     const res = await fetch(API + "/momentum1loss");
