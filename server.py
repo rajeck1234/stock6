@@ -627,7 +627,7 @@ def momentum_scheduler():
         last_candle_scan_time = current_time
 
 
-        time.sleep(1)
+        # time.sleep(1)
 
 
 @app.route("/momentum1loss")
