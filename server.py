@@ -19,7 +19,7 @@ CANDLE_URL = "https://groww.in/v1/api/charting_service/v2/chart/delayed/exchange
 
 # BASE_URL = "https://groww.in/v1/api/stocks_data/v1/tr_live_book/exchange/NSE/segment/CASH/{}/latest"
 
-MAX_CONCURRENT_REQUESTS = 100
+MAX_CONCURRENT_REQUESTS = 30
 SEM = asyncio.Semaphore(MAX_CONCURRENT_REQUESTS)
 # -----------------------------
 # JSON Helpers
